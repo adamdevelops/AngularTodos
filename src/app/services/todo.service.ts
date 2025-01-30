@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Todos } from '../models/todos.model';
 import { catchError, map, Observable, of } from 'rxjs';
+import { Todo } from '../models/todo.model';
 
 
 @Injectable({
@@ -19,14 +20,14 @@ export class TodoService {
 
   constructor(private http: HttpClient) { }
 
-  getAllTodos(): Observable<Todos>{
+  getAllTodos(): Observable<Todo[]>{
     let requestUrl = this.url;
 
-    return this.http.get<Todos>(this.url).pipe(
-      map((resp: any) => resp ? resp.items : {items: []}), // ✅ Ensure it always returns an array
+    return this.http.get<Todo[]>(this.url).pipe(
+      map((resp: any) => resp ? resp : []), 
       catchError(err => {
         console.error('Error fetching todos:', err);
-        return of({items: []}); // ✅ Ensure catchError returns an empty array
+        return of([]); 
       })
     );
   }

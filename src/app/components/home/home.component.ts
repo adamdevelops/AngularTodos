@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { TodoComponent } from '../todo/todo.component';
-import { Todos } from '../../models/todos.model';
 import { TodoService } from '../../services/todo.service';
 import { NgFor, NgIf } from '@angular/common';
 import { Todo } from '../../models/todo.model';
@@ -18,19 +17,18 @@ import { Observable } from 'rxjs';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  todos: Todos = { items: [] };
+  todos: Todo[] = []
   // todo: Todo | undefined;
   
   constructor(private todoService: TodoService){
-    this.todos.items = [];
     this.getAllTodos();
   }
 
   getAllTodos(){
-    this.todoService.getAllTodos().subscribe((resp: Todos) => {
+    this.todoService.getAllTodos().subscribe(resp => {
       console.log("resp from call", resp)
 
-      this.todos.items = resp.items;
+      this.todos = resp;
     })
   }
 
